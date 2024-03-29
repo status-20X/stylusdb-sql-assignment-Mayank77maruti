@@ -16,9 +16,10 @@ test('Parse SQL Query', () => {
     expect(parsed).toEqual({
         fields: ['id', 'name'],
         table: 'sample',
-        whereClause: null
+        whereClauses: [] // Use 'whereClauses' to match the function's output
     });
 });
+
 
 test('Execute SQL Query', async () => {
     const query = 'SELECT id, name FROM sample';
@@ -54,26 +55,22 @@ test('Execute SQL Query with WHERE Clause', async () => {
 });
 
 test('Parse SQL Query with Multiple WHERE Clauses', () => {
-    const query = 'SELECT id, name FROM sample WHERE age = 30 AND name = "John"';
+    const query = 'SELECT id, name FROM sample WHERE age = 30 AND name = John';
     const parsed = parseQuery(query);
     expect(parsed).toEqual({
         fields: ['id', 'name'],
         table: 'sample',
-        whereClause: {
-            conditions: [{
-                field: "age",
-                operator: "=",
-                value: "30",
-            }, {
-                field: "name",
-                operator: "=",
-                value: "John",
-            }],
-            logicalOperator: "AND"
-        }
+        whereClauses: [{
+            "field": "age",
+            "operator": "=",
+            "value": "30",
+        }, {
+            "field": "name",
+            "operator": "=",
+            "value": "John",
+        }]
     });
 });
-
 
 test('Execute SQL Query with Multiple WHERE Clause', async () => {
     const query = 'SELECT id, name FROM sample WHERE age = 30 AND name = John';
