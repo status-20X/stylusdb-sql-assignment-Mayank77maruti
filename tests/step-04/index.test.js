@@ -15,9 +15,11 @@ test('Parse SQL Query', () => {
     const parsed = parseQuery(query);
     expect(parsed).toEqual({
         fields: ['id', 'name'],
-        table: 'sample'
+        table: 'sample',
+        whereClause: null // Include this line to match the function's output
     });
 });
+
 
 test('Execute SQL Query', async () => {
     const query = 'SELECT id, name FROM sample';
